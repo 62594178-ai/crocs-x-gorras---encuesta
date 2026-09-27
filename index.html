@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crocs × Gorras | Encuesta</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(135deg,#fff7fb,#f1f9ff);
+  color:#252525;
+}
+
+.container{
+  width:min(1100px,92%);
+  margin:auto;
+  padding:30px 0 60px;
+}
+
+/* =====================================================
+   🔗 AQUÍ PUEDES CAMBIAR LOS COLORES Y EL DISEÑO
+   ===================================================== */
+
+.hero{
+  background:white;
+  border-radius:30px;
+  padding:35px;
+  box-shadow:0 15px 40px rgba(0,0,0,.10);
+  margin-bottom:25px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+  align-items:center;
+}
+
+.title{
+  font-size:clamp(42px,7vw,76px);
+  line-height:.9;
+  font-weight:900;
+  margin:0;
+  letter-spacing:-4px;
+}
+
+.title .x{
+  color:#ff72ae;
+}
+
+.subtitle{
+  font-size:20px;
+  margin:20px 0 10px;
+  font-weight:bold;
+}
+
+.description{
+  line-height:1.7;
+  color:#555;
+}
+
+.product-image{
+  width:100%;
+  height:420px;
+  object-fit:cover;
+  border-radius:25px;
+  background:#eeeeee;
+  display:block;
+}
+
+/* =====================================================
+   🖼️ ESPACIO PARA TU IMAGEN
+
+   Busca en el código la línea:
+
+   const PRODUCT_IMAGE_URL = "PEGA_AQUI_EL_LINK_DE_TU_IMAGEN";
+
+   y pega allí el link de tu imagen.
+   ===================================================== */
+
+.colors-title{
+  font-size:28px;
+  font-weight:900;
+  margin:30px 0 15px;
+}
+
+.colors{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.color{
+  padding:12px 18px;
+  border-radius:50px;
+  font-weight:bold;
+  font-size:14px;
+  border:2px solid #eee;
+}
+
+.rosado{background:#ffd1e3;}
+.celeste{background:#cceeff;}
+.amarillo{background:#fff0a8;}
+.lila{background:#e4d5ff;}
+.verde{background:#d7efc2;}
+.negro{background:#222;color:white;}
+
+.info{
+  margin-top:25px;
+  background:#fffafc;
+  border-radius:20px;
+  padding:22px;
+  line-height:1.7;
+}
+
+.section-title{
+  text-align:center;
+  font-size:30px;
+  margin:35px 0 8px;
+}
+
+.section-subtitle{
+  text-align:center;
+  color:#666;
+  margin-bottom:25px;
+}
+
+.progress-wrap{
+  background:white;
+  border-radius:18px;
+  padding:15px 18px;
+  margin-bottom:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,.07);
+}
+
+.progress{
+  height:10px;
+  background:#eee;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.bar{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#ff72ae,#8fd3ff,#ffe58a);
+  transition:.25s;
+}
+
+.progress-text{
+  font-size:13px;
+  margin-top:8px;
+  color:#666;
+}
+
+.card{
+  background:white;
+  border-radius:22px;
+  padding:25px;
+  margin:15px 0;
+  box-shadow:0 8px 25px rgba(0,0,0,.06);
+}
+
+.card h2{
+  font-size:17px;
+  line-height:1.5;
+  margin:0 0 16px;
+}
+
+.qnum{
+  display:inline-flex;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  align-items:center;
+  justify-content:center;
+  background:#ffe1ee;
+  margin-right:8px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.required{
+  color:#e74c3c;
+}
+
+.option{
+  display:block;
+  margin:9px 0;
+  padding:12px 14px;
+  border:1px solid #e5e5e5;
+  border-radius:13px;
+  cursor:pointer;
+}
+
+.option:hover{
+  background:#fff7fb;
+  border-color:#ffb5d3;
+}
+
+input[type=radio]{
+  margin-right:9px;
+  accent-color:#ff72ae;
+}
+
+textarea,
+select{
+  width:100%;
+  border:1px solid #ddd;
+  border-radius:13px;
+  padding:13px;
+  font:inherit;
+  background:white;
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.actions{
+  text-align:center;
+  margin-top:28px;
+}
+
+.btn{
+  border:0;
+  border-radius:50px;
+  padding:15px 30px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#252525;
+  color:white;
+}
+
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.error{
+  color:#a61b1b;
+  background:#fff0f0;
+  padding:13px;
+  border-radius:12px;
+  display:none;
+  margin:15px auto;
+  max-width:600px;
+}
+
+.success{
+  display:none;
+  background:white;
+  border-radius:25px;
+  padding:40px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.10);
+}
+
+.note{
+  text-align:center;
+  color:#777;
+  font-size:12px;
+  margin-top:14px;
+}
+
+@media(max-width:750px){
+  .hero{
+    padding:22px;
+  }
+
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .product-image{
+    height:300px;
+  }
+
+  .title{
+    letter-spacing:-2px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- =====================================================
+     PORTADA
+     ===================================================== -->
+
+<section class="hero">
+
+  <div class="hero-grid">
+
+    <div>
+
+      <h1 class="title">
+        CROCS <span class="x">×</span><br>
+        GORRAS
+      </h1>
+
+      <div class="subtitle">
+        Tu gorra, tus charms, tu estilo.
+      </div>
+
+      <p class="description">
+        Crocs × Gorras es una propuesta de gorras personalizables.
+        Puedes escoger el color de tu gorra y agregar charms para
+        crear una combinación que represente tu estilo y personalidad.
+
+        Está pensado principalmente para adolescentes y jóvenes de 
+        13 a 25 años que buscan accesorios modernos, originales y 
+        que les permitan expresar su personalidad.
+      </p>
+
+    </div>
+
+    <div>
+
+      <!-- 🖼️ LA IMAGEN SE COLOCA AUTOMÁTICAMENTE DESDE PRODUCT_IMAGE_URL -->
+      <img
+        id="productImage"
+        class="product-image"
+        alt="Crocs × Gorras"
+      >
+
+    </div>
+
+  </div>
+
+  <h2 class="colors-title">Los colores</h2>
+
+  <div class="colors">
+    <span class="color rosado">🌸 Rosado</span>
+    <span class="color celeste">☁️ Celeste</span>
+    <span class="color amarillo">⭐ Amarillo</span>
+    <span class="color lila">🦋 Lila</span>
+    <span class="color verde">🐸 Verde</span>
+    <span class="color negro">🖤 Negro</span>
+  </div>
+
+  <div class="info">
+    <strong>¿Qué es Crocs × Gorras?</strong><br>
+    Una propuesta pensada para que cada persona pueda elegir
+    el color de su gorra y personalizarla con diferentes charms,
+    creando un diseño único y de acuerdo con sus gustos.
+  </div>
+
+</section>
+
+
+<h2 class="section-title">Encuesta</h2>
+
+<p class="section-subtitle">
+  Tu opinión nos ayudará a conocer tus gustos y preferencias.
+</p>
+
+
+<div class="progress-wrap">
+  <div class="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <div class="progress-text" id="progressText">
+    0 de 20 preguntas respondidas
+  </div>
+</div>
+
+
+<form id="survey">
+
+<!-- ==================== PREGUNTAS CERRADAS ==================== -->
+
+<div class="card">
+<h2><span class="qnum">1</span>¿Con qué frecuencia usas gorras? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q1" value="Todos los días">Todos los días</label>
+<label class="option"><input type="radio" name="q1" value="Varias veces por semana">Varias veces por semana</label>
+<label class="option"><input type="radio" name="q1" value="Una vez por semana">Una vez por semana</label>
+<label class="option"><input type="radio" name="q1" value="Casi nunca">Casi nunca</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">2</span>¿Te interesaría comprar una gorra personalizable? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q2" value="Sí">Sí</label>
+<label class="option"><input type="radio" name="q2" value="Tal vez">Tal vez</label>
+<label class="option"><input type="radio" name="q2" value="No">No</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">3</span>¿Qué tipo de gorra prefieres? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q3" value="Gorra clásica">Gorra clásica</label>
+<label class="option"><input type="radio" name="q3" value="Gorra trucker">Gorra trucker</label>
+<label class="option"><input type="radio" name="q3" value="Gorra deportiva">Gorra deportiva</label>
+<label class="option"><input type="radio" name="q3" value="Gorra tipo bucket">Gorra tipo bucket</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">4</span>¿Te gustaría poder escoger el color de tu gorra? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q4" value="Negro">Sí</label>
+<label class="option"><input type="radio" name="q4" value="Blanco">No</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">5</span>¿Qué color escogerías para tu gorra? <span class="required">*</span></h2>
+<select required name="q5">
+<option value="">Selecciona...</option>
+<option>Negro</option>
+<option>Blanco</option>
+<option>Rosado</option>
+<option>Celeste</option>
+<option>Rojo</option>
+<option>Verde</option>
+<option>Otro</option>
+</select>
+</div>
+
+<div class="card">
+<h2><span class="qnum">6</span>¿Qué tipo de charms te gustaría agregar? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q6" value="Animales">Animales</label>
+<label class="option"><input type="radio" name="q6" value="Comida">Comida</label>
+<label class="option"><input type="radio" name="q6" value="Letras o iniciales">Letras o iniciales</label>
+<label class="option"><input type="radio" name="q6" value="Corazones o estrellas">Corazones o estrellas</label>
+<label class="option"><input type="radio" name="q6" value="Personajes">Personajes</label>
+<label class="option"><input type="radio" name="q6" value="Otros">Otros</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">7</span>¿Cuántos charms te gustaría colocar? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q7" value="1–2">1–2</label>
+<label class="option"><input type="radio" name="q7" value="3–4">3–4</label>
+<label class="option"><input type="radio" name="q7" value="5–6">5–6</label>
+<label class="option"><input type="radio" name="q7" value="Más de 6">Más de 6</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">8</span>¿Qué tamaño de gorra usarías? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q8" value="Pequeño">Pequeño</label>
+<label class="option"><input type="radio" name="q8" value="Mediano">Mediano</label>
+<label class="option"><input type="radio" name="q8" value="Grande">Grande</label>
+<label class="option"><input type="radio" name="q8" value="Ajustable">Ajustable</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">9</span>¿Cuánto pagarías por una gorra personalizable? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q9" value="S/ 15–20">S/ 15–20</label>
+<label class="option"><input type="radio" name="q9" value="S/ 21–25">S/ 21–25</label>
+<label class="option"><input type="radio" name="q9" value="S/ 26–30">S/ 26–30</label>
+<label class="option"><input type="radio" name="q9" value="Más de S/ 30">Más de S/ 30</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">10</span>¿Comprarías la gorra para ti? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q10" value="Sí">Sí</label>
+<label class="option"><input type="radio" name="q10" value="Tal vez">Tal vez</label>
+<label class="option"><input type="radio" name="q10" value="No">No</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">11</span>¿Comprarías la gorra como regalo para otra persona? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q11" value="Sí">Sí</label>
+<label class="option"><input type="radio" name="q11" value="Tal vez">Tal vez</label>
+<label class="option"><input type="radio" name="q11" value="No">No</label>
+</div>
+
+<div class="card">
+<h2><span class="qnum">12</span>¿Te gustaría poder cambiar los charms cuando quieras? <span class="required">*</span></h2>
+<label class="option"><input required type="radio" name="q12" value="Sí">Sí</label>
+<label class="option"><input type="radio" name="q12" value="Tal vez">Tal vez</label>
+<label class="option"><input type="radio" name="q12" value="No">No</label>
+</div>
+
+
+<!-- ==================== PREGUNTAS ABIERTAS ==================== -->
+
+<div class="card">
+<h2><span class="qnum">13</span>¿Qué combinación de colores te gustaría para la gorra? <span class="required">*</span></h2>
+<textarea required name="q13" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+<div class="card">
+<h2><span class="qnum">14</span>¿Qué otros charms te gustaría que ofreciéramos? <span class="required">*</span></h2>
+<textarea required name="q14" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+<div class="card">
+<h2><span class="qnum">15</span>¿Cómo te gustaría que fuera el diseño de la gorra? <span class="required">*</span></h2>
+<textarea required name="q15" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+<div class="card">
+<h2><span class="qnum">16</span>¿Qué característica sería la más importante para ti al comprarla? <span class="required">*</span></h2>
+<textarea required name="q16" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+<div class="card">
+<h2><span class="qnum">17</span>¿Qué haría que esta gorra se diferencie de otras? <span class="required">*</span></h2>
+<textarea required name="q17" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+<div class="card">
+<h2><span class="qnum">18</span>¿Qué mejorarías o agregarías al producto? <span class="required">*</span></h2>
+<textarea required name="q18" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+<div class="card">
+<h2><span class="qnum">19</span>Describe cómo sería para ti la gorra personalizada ideal. <span class="required">*</span></h2>
+<textarea required name="q19" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+<div class="card">
+<h2><span class="qnum">20</span>¿Qué recomendación nos darías para mejorar la propuesta Crocs × Gorras? <span class="required">*</span></h2>
+<textarea required name="q20" placeholder="Escribe tu respuesta..."></textarea>
+</div>
+
+
+<div class="actions">
+
+<button class="btn" id="submitBtn" type="submit">
+Enviar encuesta
+</button>
+
+<div class="error" id="errorBox"></div>
+
+<div class="note">
+Tus respuestas se enviarán a la hoja de cálculo configurada.
+</div>
+
+</div>
+
+</form>
+
+
+<section class="success" id="success">
+
+<h2>¡Gracias por responder! 💗</h2>
+
+<p>
+Tu respuesta fue registrada correctamente.
+</p>
+
+<button class="btn" onclick="location.reload()">
+Responder otra vez
+</button>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   🔗 1. LINK DE LA IMAGEN
+
+   PEGA AQUÍ EL LINK DIRECTO DE LA IMAGEN QUE QUIERES
+   MOSTRAR EN LA PORTADA.
+
+   Ejemplo:
+   const PRODUCT_IMAGE_URL = "https://....../imagen.jpg";
+   ========================================================= */
+
+const PRODUCT_IMAGE_URL = "imagen gorras.png" 
+
+
+/* =========================================================
+   🔗 2. LINK PARA GOOGLE SHEETS
+
+   AQUÍ NO VA EL LINK NORMAL DE GOOGLE SHEETS.
+
+   Aquí debes pegar la URL de tu "Aplicación web" de
+   Google Apps Script, que termina en /exec.
+
+   Ejemplo:
+   const SCRIPT_URL =
+   "https://script.google.com/macros/s/XXXXXXXX/exec";
+   ========================================================= */
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbyejGeWEVbLsMpt-nLp9H2zDD_N-dgJxJVnju1-WdSNhC_dVuSWgbjzPbp5Cv1XJPr97Q/exec";
+
+
+/* Coloca automáticamente la imagen */
+
+const productImage = document.getElementById("productImage");
+
+if(
+  PRODUCT_IMAGE_URL &&
+  !PRODUCT_IMAGE_URL.includes("PEGA_AQUI")
+){
+  productImage.src = PRODUCT_IMAGE_URL;
+}else{
+  productImage.alt =
+    "Aquí aparecerá la imagen de Crocs × Gorras";
+}
+
+
+/* Barra de progreso */
+
+const form = document.getElementById("survey");
+const bar = document.getElementById("bar");
+const progressText = document.getElementById("progressText");
+
+function answered(name){
+
+  const elements =
+    [...form.querySelectorAll(`[name="${name}"]`)];
+
+  if(!elements.length) return false;
+
+  if(
+    elements[0].type === "radio" ||
+    elements[0].type === "checkbox"
+  ){
+    return elements.some(e => e.checked);
+  }
+
+  return !!elements[0].value.trim();
+}
+
+
+function updateProgress(){
+
+  let count = 0;
+
+  for(let i=1;i<=20;i++){
+
+    if(answered("q"+i)){
+      count++;
+    }
+
+  }
+
+  bar.style.width =
+    (count / 20 * 100) + "%";
+
+  progressText.textContent =
+    `${count} de 20 preguntas respondidas`;
+}
+
+
+form.addEventListener(
+  "input",
+  updateProgress
+);
+
+form.addEventListener(
+  "change",
+  updateProgress
+);
+
+
+/* Envío a Google Sheets */
+
+form.addEventListener(
+  "submit",
+  async function(e){
+
+    e.preventDefault();
+
+    const errorBox =
+      document.getElementById("errorBox");
+
+    const submitBtn =
+      document.getElementById("submitBtn");
+
+    errorBox.style.display = "none";
+
+
+    if(
+      SCRIPT_URL.includes("PEGA_AQUI")
+    ){
+
+      errorBox.textContent =
+        "Primero debes colocar la URL de tu Web App de Google Apps Script.";
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+
+
+    const data = {};
+
+
+    for(let i=1;i<=20;i++){
+
+      const elements =
+        [...form.querySelectorAll(
+          `[name="q${i}"]`
+        )];
+
+      if(
+        elements[0].type === "radio"
+      ){
+
+        const selected =
+          elements.find(
+            element => element.checked
+          );
+
+        data["q"+i] =
+          selected ? selected.value : "";
+
+      }else{
+
+        data["q"+i] =
+          elements[0].value.trim();
+
+      }
+
+    }
+
+
+    try{
+
+      await fetch(
+        SCRIPT_URL,
+        {
+          method:"POST",
+          mode:"no-cors",
+          headers:{
+            "Content-Type":
+            "text/plain;charset=utf-8"
+          },
+          body:JSON.stringify(data)
+        }
+      );
+
+
+      form.style.display = "none";
+
+      document.querySelector(
+        ".progress-wrap"
+      ).style.display = "none";
+
+      document.getElementById(
+        "success"
+      ).style.display = "block";
+
+
+    }catch(error){
+
+      errorBox.textContent =
+        "No se pudo enviar la respuesta. Revisa la URL de tu Web App.";
+
+      errorBox.style.display = "block";
+
+      submitBtn.disabled = false;
+      submitBtn.textContent =
+        "Enviar encuesta";
+
+    }
+
+  }
+);
+
+
+updateProgress();
+
+</script>
+
+</body>
+</html>
